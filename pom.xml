@@ -6,11 +6,21 @@
 
     <groupId>tkaczyk.sebastian</groupId>
     <artifactId>customers_manager</artifactId>
-    <version>1.0</version>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+
+    <modules>
+        <module>api</module>
+        <module>persistence</module>
+        <module>service</module>
+    </modules>
 
     <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <revision>1.0</revision>
+        <java.version>16</java.version>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
 </project>
