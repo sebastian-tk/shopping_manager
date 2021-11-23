@@ -11,6 +11,13 @@
 
     <artifactId>service</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>tkaczyk.sebastian</groupId>
+            <artifactId>persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>service</finalName>
