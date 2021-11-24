@@ -1,0 +1,205 @@
+[
+  {
+    "customer": {
+      "id": 1,
+      "name": "Zygmunt",
+      "surname": "Nowak",
+      "age": 65,
+      "cash": 30000
+    },
+    "products": [
+      {
+        "id": 1,
+        "name": "Komputer Asus",
+        "category": "Elektronika",
+        "price": 2400
+      },
+      {
+        "id": 2,
+        "name": "Tablet Samsung ",
+        "category": "Elektronika",
+        "price": 1999
+      },
+      {
+        "id": 3,
+        "name": "Pan Tadeusz",
+        "category": "Ksiazka",
+        "price": 40
+      },
+      {
+        "id": 4,
+        "name": "Potop",
+        "category": "Ksiazka",
+        "price": 65
+      },
+      {
+        "id": 5,
+        "name": "Ogniem i mieczem",
+        "category": "Ksiazka",
+        "price": 78
+      },
+      {
+        "id": 6,
+        "name": "Sok pomaranczowy",
+        "category": "Spozywcze",
+        "price": 5
+      },
+      {
+        "id": 6,
+        "name": "Sok pomaranczowy",
+        "category": "Spozywcze",
+        "price": 5
+      },
+      {
+        "id": 6,
+        "name": "Baton proteinowy",
+        "category": "Spozywcze",
+        "price": 2.99
+      },
+      {
+        "id": 6,
+        "name":  "Baton proteinowy",
+        "category": "Spozywcze",
+        "price": 2.99
+      },
+      {
+        "id": 7,
+        "name": "Pepsi",
+        "category": "Spozywcze",
+        "price": 3.99
+      },
+
+      {
+        "id": 9,
+        "name": "Jogurt",
+        "category": "Spozywcze",
+        "price": 2
+      }
+    ]
+  },
+  {
+    "customer": {
+      "id": 2,
+      "name": "Tomasz",
+      "surname": "Jonak",
+      "age": 25,
+      "cash": 3500
+    },
+    "products": [
+      {
+        "id": 2,
+        "name": "Tablet Samsung ",
+        "category": "Elektronika",
+        "price": 1999
+      },
+      {
+        "id": 6,
+        "name": "Sok pomaranczowy",
+        "category": "Spozywcze",
+        "price": 5
+      },
+      {
+        "id": 6,
+        "name": "Baton proteinowy",
+        "category": "Spozywcze",
+        "price": 2.99
+      },
+      {
+        "id": 7,
+        "name": "Pepsi",
+        "category": "Spozywcze",
+        "price": 3.99
+      },
+      {
+        "id": 7,
+        "name": "Pepsi",
+        "category": "Spozywcze",
+        "price": 3.99
+      },
+      {
+        "id": 7,
+        "name": "Pepsi",
+        "category": "Spozywcze",
+        "price": 3.99
+      },
+      {
+        "id": 7,
+        "name": "Pepsi",
+        "category": "Spozywcze",
+        "price": 3.99
+      },
+
+      {
+        "id": 9,
+        "name": "Jogurt",
+        "category": "Spozywcze",
+        "price": 2
+      }
+    ]
+  },
+  {
+    "customer": {
+      "id": 3,
+      "name": "Iza",
+      "surname": "Wolna",
+      "age": 21,
+      "cash": 8000
+    },
+    "products": [
+      {
+        "id": 8,
+        "name": "Telewizor",
+        "category": "Elektronika",
+        "price": 6400
+      },
+      {
+        "id": 9,
+        "name": "Jogurt",
+        "category": "Spozywcze",
+        "price": 2
+      },
+
+      {
+        "id": 9,
+        "name": "Jogurt",
+        "category": "Spozywcze",
+        "price": 2
+      },
+      {
+        "id": 10,
+        "name": "Krem orzechowy",
+        "category": "Spozywcze",
+        "price": 4
+      }
+    ]
+  },
+  {
+    "customer": {
+      "id": 4,
+      "name": "Marta",
+      "surname": "Białek",
+      "age": 17,
+      "cash": 900
+    },
+    "products": [
+      {
+        "id": 11,
+        "name": "Telefon",
+        "category": "Elektronika",
+        "price": 500
+      },
+      {
+        "id": 6,
+        "name": "Sok pomaranczowy",
+        "category": "Spozywcze",
+        "price": 5
+      },
+      {
+        "id": 6,
+        "name": "Sok pomaranczowy",
+        "category": "Spozywcze",
+        "price": 5
+      }
+    ]
+  }
+]
