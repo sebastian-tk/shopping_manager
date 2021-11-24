@@ -12,6 +12,13 @@
     <artifactId>persistence</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+    </dependencies>
     <build>
         <finalName>persistence</finalName>
     </build>
