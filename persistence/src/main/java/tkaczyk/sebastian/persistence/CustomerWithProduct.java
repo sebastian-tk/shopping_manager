@@ -1,16 +1,15 @@
 package tkaczyk.sebastian.persistence;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
+@ToString
 public class CustomerWithProduct {
     Customer customer;
     List<Product> products;
