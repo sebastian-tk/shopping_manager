@@ -6,12 +6,16 @@ import tkaczyk.sebastian.persistence.Customer;
 import tkaczyk.sebastian.persistence.Product;
 import tkaczyk.sebastian.persistence.converter.CustomerWithProductJsonConverter;
 
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static java.util.Collections.*;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
-import static tkaczyk.sebastian.persistence.CustomerWithProductUtils.toCustomer;
-import static tkaczyk.sebastian.persistence.CustomerWithProductUtils.toProductsStream;
+import static tkaczyk.sebastian.persistence.CustomerWithProductUtils.*;
 
 @Getter
 public class ShoppingService {
@@ -48,5 +52,28 @@ public class ShoppingService {
                         )));
     }
 
-
+    /**
+     *
+     * @return Optional with Customer , who spent most money for shopping
+     */
+    public Optional<Customer> withCustomerSpendMostMoney(){
+        return customerWithProduct
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        entry -> entry
+                                .getValue()
+                                .entrySet()
+                                .stream()
+                                .flatMap(productWithLong -> nCopies(
+                                        productWithLong.getValue().intValue(),
+                                        productWithLong.getKey()).stream())
+                                .map(toPrice)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add)))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey);
+    }
 }
