@@ -1,0 +1,21 @@
+package tkaczyk.sebastian.service.extensions;
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import tkaczyk.sebastian.service.ShoppingService;
+
+public class ShoppingServiceExtension implements ParameterResolver {
+    private final static String fileName ="src/test/resources/dataTest.json";
+
+    @Override
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return parameterContext.getParameter().getType().equals(ShoppingService.class);
+    }
+
+    @Override
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+       return new ShoppingService(fileName);
+    }
+}
