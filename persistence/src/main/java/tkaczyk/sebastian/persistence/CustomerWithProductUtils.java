@@ -9,4 +9,5 @@ public interface CustomerWithProductUtils {
     Function<CustomerWithProduct,Customer> toCustomer =customerWithProduct -> customerWithProduct.customer;
     Function<CustomerWithProduct, Stream<Product>> toProductsStream = customerWithProduct -> customerWithProduct.products.stream();
     Function<Product, BigDecimal> toPrice = product -> product.price;
+    Function<Product, String> toCategory = product -> product.category;
 }
