@@ -3,13 +3,13 @@ package tkaczyk.sebastian.service;
 import lombok.Getter;
 import tkaczyk.sebastian.exception.ShoppingServiceException;
 import tkaczyk.sebastian.persistence.Customer;
+import tkaczyk.sebastian.persistence.CustomerWithProduct;
+import tkaczyk.sebastian.persistence.CustomerWithProductUtils;
 import tkaczyk.sebastian.persistence.Product;
 import tkaczyk.sebastian.persistence.converter.CustomerWithProductJsonConverter;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.*;
 import static java.util.function.Function.identity;
@@ -127,6 +127,61 @@ public class ShoppingService {
                 .stream()
                 .toList();
     }
+
+
+    /**
+     *
+     * @return  Map with pairs, age as key and category as value, which describes the most often
+     *          bought products from this category in customers in this age
+     */
+    public Map<Integer,String> findAgeWithCategory(){
+        return customerWithProduct
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        entry-> Objects.requireNonNull(entry
+                                        .getValue()
+                                        .entrySet()
+                                        .stream()
+                                        .flatMap(productLongEntry -> nCopies(
+                                                productLongEntry.getValue().intValue(),
+                                                productLongEntry.getKey()).stream())
+                                        .collect(groupingBy(toCategory))
+                                        .entrySet()
+                                        .stream()
+                                        .max(Map.Entry.comparingByValue(Comparator.comparingInt(List::size)))
+                                        .orElse(null))
+                                .getValue()))
+                .entrySet()
+                .stream()
+                .flatMap(customerProductEntry -> customerProductEntry
+                                                .getValue()
+                                                .stream()
+                                                .map(product ->  CustomerWithProduct
+                                                .builder()
+                                                .customer(customerProductEntry.getKey())
+                                                .products(customerProductEntry.getValue())
+                                                .build()))
+                .collect(toMap(
+                        toAge,
+                        toProducts,
+                        (age1,age2)->age1.size() > age2.size() ? age1 : age2
+                ))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        products-> products.getValue().stream().map(toCategory).toList().get(0),
+                        (e1,e2)->e1,
+                        LinkedHashMap::new
+                ));
+    }
+
+
+
+
 
     /**
      *
