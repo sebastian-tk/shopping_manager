@@ -4,16 +4,17 @@ import lombok.Getter;
 import tkaczyk.sebastian.exception.ShoppingServiceException;
 import tkaczyk.sebastian.persistence.Customer;
 import tkaczyk.sebastian.persistence.CustomerWithProduct;
-import tkaczyk.sebastian.persistence.CustomerWithProductUtils;
 import tkaczyk.sebastian.persistence.Product;
 import tkaczyk.sebastian.persistence.converter.CustomerWithProductJsonConverter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 import static java.util.Collections.*;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
+import static org.eclipse.collections.impl.collector.Collectors2.summarizingBigDecimal;
 import static tkaczyk.sebastian.persistence.CustomerWithProductUtils.*;
 
 @Getter
@@ -159,10 +160,10 @@ public class ShoppingService {
                                                 .getValue()
                                                 .stream()
                                                 .map(product ->  CustomerWithProduct
-                                                .builder()
-                                                .customer(customerProductEntry.getKey())
-                                                .products(customerProductEntry.getValue())
-                                                .build()))
+                                                                .builder()
+                                                                .customer(customerProductEntry.getKey())
+                                                                .products(customerProductEntry.getValue())
+                                                                .build()))
                 .collect(toMap(
                         toAge,
                         toProducts,
@@ -179,6 +180,32 @@ public class ShoppingService {
                 ));
     }
 
+    /**
+     *
+     * @return Map with category as keys and BigDecimal as average price of products from this category
+     */
+    public Map<String,BigDecimal> calculateAverageForAllCategory(){
+        return customerWithProduct
+                .values()
+                .stream()
+                .flatMap(productLongMap -> productLongMap
+                                            .entrySet()
+                                            .stream()
+                                            .flatMap(productLongEntry -> nCopies(
+                                                                            productLongEntry.getValue().intValue(),
+                                                                            productLongEntry.getKey()).stream()))
+                .collect(groupingBy(
+                        toCategory,
+                        collectingAndThen(
+                                mapping(toPrice,toList()),
+                                prices-> prices
+                                        .stream()
+                                        .collect(summarizingBigDecimal(price->price))
+                                        .getAverage()
+                                        .setScale(2, RoundingMode.FLOOR)
+                        )
+                ));
+    }
 
 
 
