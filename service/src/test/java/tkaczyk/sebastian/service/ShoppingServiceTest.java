@@ -75,7 +75,7 @@ public class ShoppingServiceTest {
                         .builder()
                         .id(4)
                         .name("Marta")
-                        .surname("Białek")
+                        .surname("Bialek")
                         .age(17)
                         .cash(BigDecimal.valueOf(900))
                         .build()
@@ -91,7 +91,7 @@ public class ShoppingServiceTest {
                 .builder()
                 .id(4)
                 .name("Marta")
-                .surname("Białek")
+                .surname("Bialek")
                 .age(17)
                 .cash(BigDecimal.valueOf(900))
                 .build();
@@ -102,6 +102,13 @@ public class ShoppingServiceTest {
                         .name("Telefon")
                         .category("Elektronika")
                         .price(BigDecimal.valueOf(500))
+                        .build(), 1L,
+                Product
+                        .builder()
+                        .id(12)
+                        .name("Słuchawki")
+                        .category("Elektronika")
+                        .price(BigDecimal.valueOf(200))
                         .build(), 1L,
                 Product
                         .builder()

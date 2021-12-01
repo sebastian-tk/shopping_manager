@@ -158,7 +158,31 @@
         "category": "Spozywcze",
         "price": 2
       },
+      {
+        "id": 13,
+        "name": "Kot w butach",
+        "category": "Ksiazka",
+        "price": 10
+      },
+      {
+        "id": 14,
+        "name": "Java-podstawy",
+        "category": "Ksiazka",
+        "price": 35
+      },
+      {
+        "id": 15,
+        "name": "Poradnik kulinarny",
+        "category": "Ksiazka",
+        "price": 20
+      },
 
+      {
+        "id": 16,
+        "name": "Bajki dla dzieci",
+        "category": "Ksiazka",
+        "price": 11
+      },
       {
         "id": 9,
         "name": "Jogurt",
@@ -177,7 +201,7 @@
     "customer": {
       "id": 4,
       "name": "Marta",
-      "surname": "Białek",
+      "surname": "Bialek",
       "age": 17,
       "cash": 900
     },
@@ -187,6 +211,12 @@
         "name": "Telefon",
         "category": "Elektronika",
         "price": 500
+      },
+      {
+        "id": 12,
+        "name": "Słuchawki",
+        "category": "Elektronika",
+        "price": 200
       },
       {
         "id": 6,
