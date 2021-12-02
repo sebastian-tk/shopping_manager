@@ -1,7 +1,6 @@
 package tkaczyk.sebastian.service.extensions;
 
 import tkaczyk.sebastian.persistence.Product;
-
 import java.math.BigDecimal;
 
 public interface ProductsFactory {
@@ -37,6 +36,13 @@ public interface ProductsFactory {
             .price(BigDecimal.valueOf(2))
             .build();
 
+    Product productId11 = Product
+            .builder()
+            .id(11)
+            .name("Telefon")
+            .category("Elektronika")
+            .price(BigDecimal.valueOf(500))
+            .build();
     Product productId12 = Product
             .builder()
             .id(12)

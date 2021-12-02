@@ -3,14 +3,13 @@ package tkaczyk.sebastian.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tkaczyk.sebastian.exception.ShoppingServiceException;
-import tkaczyk.sebastian.persistence.Customer;
-import tkaczyk.sebastian.persistence.Product;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
+import static tkaczyk.sebastian.service.extensions.CustomersFactory.*;
+import static tkaczyk.sebastian.service.extensions.ProductsFactory.*;
 
 public class ShoppingServiceTest {
     String fileNameCorrect = "src/test/resources/dataTest.json";
@@ -43,43 +42,7 @@ public class ShoppingServiceTest {
     public void test5(){
         ShoppingService shoppingServiceTest = new ShoppingService(fileNameCorrect);
 
-        var customersExpected = List.of(
-                Customer
-                        .builder()
-                        .id(1)
-                        .name("Zygmunt")
-                        .surname("Nowak")
-                        .age(65)
-                        .cash(BigDecimal.valueOf(30000))
-                        .build()
-                ,
-                Customer
-                        .builder()
-                        .id(2)
-                        .name("Tomasz")
-                        .surname("Jonak")
-                        .age(25)
-                        .cash(BigDecimal.valueOf(3500))
-                        .build()
-                ,
-                Customer
-                        .builder()
-                        .id(3)
-                        .name("Iza")
-                        .surname("Wolna")
-                        .age(21)
-                        .cash(BigDecimal.valueOf(8000))
-                        .build()
-                ,
-                Customer
-                        .builder()
-                        .id(4)
-                        .name("Marta")
-                        .surname("Bialek")
-                        .age(17)
-                        .cash(BigDecimal.valueOf(900))
-                        .build()
-        );
+        var customersExpected = List.of( zygmunt, tomasz, iza, marta);
 
         assertThat(shoppingServiceTest.getCustomerWithProduct())
                 .containsOnlyKeys(customersExpected);
@@ -87,39 +50,13 @@ public class ShoppingServiceTest {
     @Test
     @DisplayName("Should contains all Products for Customer")
     public void test6(){
-        Customer customerTest = Customer
-                .builder()
-                .id(4)
-                .name("Marta")
-                .surname("Bialek")
-                .age(17)
-                .cash(BigDecimal.valueOf(900))
-                .build();
         var productsWitQuantityExpected = Map.of(
-                Product
-                        .builder()
-                        .id(11)
-                        .name("Telefon")
-                        .category("Elektronika")
-                        .price(BigDecimal.valueOf(500))
-                        .build(), 1L,
-                Product
-                        .builder()
-                        .id(12)
-                        .name("Słuchawki")
-                        .category("Elektronika")
-                        .price(BigDecimal.valueOf(200))
-                        .build(), 1L,
-                Product
-                        .builder()
-                        .id(6)
-                        .name("Sok pomaranczowy")
-                        .category("Spozywcze")
-                        .price(BigDecimal.valueOf(5))
-                        .build(), 2L
+                productId11,1L,
+                productId12,1L,
+                productId6,2L
         );
 
-        assertThat(new ShoppingService(fileNameCorrect).getCustomerWithProduct().get(customerTest))
+        assertThat(new ShoppingService(fileNameCorrect).getCustomerWithProduct().get(marta))
                 .containsExactlyInAnyOrderEntriesOf(productsWitQuantityExpected);
     }
 }
