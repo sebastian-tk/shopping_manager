@@ -142,7 +142,7 @@ public class ShoppingService {
                 .stream()
                 .collect(toMap(
                         Map.Entry::getKey,
-                        entry-> Objects.requireNonNull(entry
+                        entry-> entry
                                         .getValue()
                                         .entrySet()
                                         .stream()
@@ -153,7 +153,7 @@ public class ShoppingService {
                                         .entrySet()
                                         .stream()
                                         .max(Map.Entry.comparingByValue(Comparator.comparingInt(List::size)))
-                                        .orElse(null))
+                                        .orElseThrow(()-> new ShoppingServiceException("Products status incorrect when searching for max value"))
                                 .getValue()))
                 .entrySet()
                 .stream()
@@ -214,26 +214,7 @@ public class ShoppingService {
      *          this category as value
      */
     public Map<String,Product> findMostExpensiveProductForCategories(){
-        return   customerWithProduct
-                .values()
-                .stream()
-                .flatMap(productLongMap -> productLongMap
-                        .entrySet()
-                        .stream()
-                        .flatMap(productLongEntry -> nCopies(
-                                productLongEntry.getValue().intValue(),
-                                productLongEntry.getKey()).stream()))
-                .collect(groupingBy(
-                        toCategory,
-                        collectingAndThen(
-                                mapping(identity(),toList()),
-                                products-> products
-                                        .stream()
-                                        .collect(toMap(
-                                                identity(),
-                                                toPrice,
-                                                (p1,p2)->p1
-                                                )))))
+        return   findCategoriesWithProductsAndPrice()
                 .entrySet()
                 .stream()
                 .collect(toMap(
@@ -254,7 +235,27 @@ public class ShoppingService {
      *          this category as value
      */
     public Map<String,Product> findCheapestProductForCategories(){
-        return   customerWithProduct
+        return   findCategoriesWithProductsAndPrice()
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        customerProductEntry-> customerProductEntry
+                                .getValue()
+                                .entrySet()
+                                .stream()
+                                .min(Map.Entry.comparingByValue())
+                                .orElseThrow(()-> new ShoppingServiceException("Invalid state in categories"))
+                                .getKey()
+                ));
+    }
+
+    /**
+     *
+     * @return Map with Categories as key and map as values with products and their price
+     */
+    private Map<String,Map<Product,BigDecimal>> findCategoriesWithProductsAndPrice(){
+        return customerWithProduct
                 .values()
                 .stream()
                 .flatMap(productLongMap -> productLongMap
@@ -273,22 +274,8 @@ public class ShoppingService {
                                                 identity(),
                                                 toPrice,
                                                 (p1,p2)->p1
-                                        )))))
-                .entrySet()
-                .stream()
-                .collect(toMap(
-                        Map.Entry::getKey,
-                        customerProductEntry-> customerProductEntry
-                                .getValue()
-                                .entrySet()
-                                .stream()
-                                .min(Map.Entry.comparingByValue())
-                                .orElseThrow(()-> new ShoppingServiceException("Invalid state in categories"))
-                                .getKey()
-                ));
+                                        )))));
     }
-
-
     /**
      *
      * @param category String as name category
