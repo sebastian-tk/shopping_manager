@@ -248,6 +248,45 @@ public class ShoppingService {
                 ));
     }
 
+    /**
+     *
+     * @return Map with pairs,key as String describes category and Product with the cheapest price form
+     *          this category as value
+     */
+    public Map<String,Product> findCheapestProductForCategories(){
+        return   customerWithProduct
+                .values()
+                .stream()
+                .flatMap(productLongMap -> productLongMap
+                        .entrySet()
+                        .stream()
+                        .flatMap(productLongEntry -> nCopies(
+                                productLongEntry.getValue().intValue(),
+                                productLongEntry.getKey()).stream()))
+                .collect(groupingBy(
+                        toCategory,
+                        collectingAndThen(
+                                mapping(identity(),toList()),
+                                products-> products
+                                        .stream()
+                                        .collect(toMap(
+                                                identity(),
+                                                toPrice,
+                                                (p1,p2)->p1
+                                        )))))
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        customerProductEntry-> customerProductEntry
+                                .getValue()
+                                .entrySet()
+                                .stream()
+                                .min(Map.Entry.comparingByValue())
+                                .orElseThrow(()-> new ShoppingServiceException("Invalid state in categories"))
+                                .getKey()
+                ));
+    }
 
 
     /**
