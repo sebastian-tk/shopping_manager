@@ -4,6 +4,7 @@ import lombok.Getter;
 import tkaczyk.sebastian.exception.ShoppingServiceException;
 import tkaczyk.sebastian.persistence.Customer;
 import tkaczyk.sebastian.persistence.CustomerWithProduct;
+import tkaczyk.sebastian.persistence.CustomerWithProductUtils;
 import tkaczyk.sebastian.persistence.Product;
 import tkaczyk.sebastian.persistence.converter.CustomerWithProductJsonConverter;
 
@@ -207,6 +208,45 @@ public class ShoppingService {
                 ));
     }
 
+    /**
+     *
+     * @return Map with pairs,key as String describes category and Product with maximum price form
+     *          this category as value
+     */
+    public Map<String,Product> findMostExpensiveProductForCategories(){
+        return   customerWithProduct
+                .values()
+                .stream()
+                .flatMap(productLongMap -> productLongMap
+                        .entrySet()
+                        .stream()
+                        .flatMap(productLongEntry -> nCopies(
+                                productLongEntry.getValue().intValue(),
+                                productLongEntry.getKey()).stream()))
+                .collect(groupingBy(
+                        toCategory,
+                        collectingAndThen(
+                                mapping(identity(),toList()),
+                                products-> products
+                                        .stream()
+                                        .collect(toMap(
+                                                identity(),
+                                                toPrice,
+                                                (p1,p2)->p1
+                                                )))))
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        customerProductEntry-> customerProductEntry
+                                .getValue()
+                                .entrySet()
+                                .stream()
+                                .max(Map.Entry.comparingByValue())
+                                .orElseThrow(()-> new ShoppingServiceException("Invalid state in categories"))
+                                .getKey()
+                ));
+    }
 
 
 
