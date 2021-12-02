@@ -4,7 +4,7 @@ import tkaczyk.sebastian.persistence.Customer;
 
 import java.math.BigDecimal;
 
-public interface FactoryCustomer {
+public interface CustomersFactory {
     Customer zygmunt = Customer
             .builder()
             .id(1)
