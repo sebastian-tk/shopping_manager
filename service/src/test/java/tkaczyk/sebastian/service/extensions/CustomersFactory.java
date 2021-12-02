@@ -20,7 +20,7 @@ public interface CustomersFactory {
             .name("Tomasz")
             .surname("Jonak")
             .age(25)
-            .cash(BigDecimal.valueOf(3500))
+            .cash(BigDecimal.valueOf(1500))
             .build();
 
     Customer iza = Customer
@@ -38,6 +38,6 @@ public interface CustomersFactory {
             .name("Marta")
             .surname("Bialek")
             .age(17)
-            .cash(BigDecimal.valueOf(900))
+            .cash(BigDecimal.valueOf(500))
             .build();
 }

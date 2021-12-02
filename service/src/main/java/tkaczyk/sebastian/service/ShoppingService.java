@@ -306,6 +306,36 @@ public class ShoppingService {
 
     /**
      *
+     * @return  Map with customers as keys and BigDecimal as values describing the account balance
+     *          after purchasing the products
+     */
+    public Map<Customer,BigDecimal> calculateAccountBalanceAfterShoppingForCustomers(){
+        return customerWithProduct
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        customerMapEntry -> customerMapEntry
+                                .getValue()
+                                .entrySet()
+                                .stream()
+                                .flatMap(productQuantityEntry -> nCopies(
+                                                                productQuantityEntry.getValue().intValue(),
+                                                                productQuantityEntry.getKey()).stream())
+                                .map(toPrice)
+                                .reduce(BigDecimal::add)
+                                .orElse(BigDecimal.ZERO)))
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        customerBigDecimalEntry ->(toCash.apply(customerBigDecimalEntry.getKey())
+                                                        .subtract(customerBigDecimalEntry.getValue()))
+                ));
+    }
+
+    /**
+     *
      * @return Map with Categories as key and map as values with products and their price
      */
     private Map<String,Map<Product,BigDecimal>> findCategoriesWithProductsAndPrice(){
