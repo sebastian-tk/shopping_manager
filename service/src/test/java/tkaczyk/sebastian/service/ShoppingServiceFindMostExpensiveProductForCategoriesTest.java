@@ -4,15 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import tkaczyk.sebastian.persistence.Product;
-import tkaczyk.sebastian.service.extensions.FactoryProduct;
 import tkaczyk.sebastian.service.extensions.ShoppingServiceExtension;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static tkaczyk.sebastian.service.extensions.FactoryProduct.*;
+import static tkaczyk.sebastian.service.extensions.ProductsFactory.*;
 
 @ExtendWith(ShoppingServiceExtension.class)
 @RequiredArgsConstructor

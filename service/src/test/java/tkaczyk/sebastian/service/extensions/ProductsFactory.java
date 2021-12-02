@@ -4,7 +4,7 @@ import tkaczyk.sebastian.persistence.Product;
 
 import java.math.BigDecimal;
 
-public interface FactoryProduct {
+public interface ProductsFactory {
     Product productId8 = Product
             .builder()
             .id(8)
