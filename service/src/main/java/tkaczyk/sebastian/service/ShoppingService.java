@@ -7,12 +7,14 @@ import tkaczyk.sebastian.persistence.CustomerWithProduct;
 import tkaczyk.sebastian.persistence.CustomerWithProductUtils;
 import tkaczyk.sebastian.persistence.Product;
 import tkaczyk.sebastian.persistence.converter.CustomerWithProductJsonConverter;
+import tkaczyk.sebastian.persistence.help.CustomerCategory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
 import static java.util.Collections.*;
+import static java.util.Comparator.comparingLong;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.*;
 import static org.eclipse.collections.impl.collector.Collectors2.summarizingBigDecimal;
@@ -247,6 +249,58 @@ public class ShoppingService {
                                 .min(Map.Entry.comparingByValue())
                                 .orElseThrow(()-> new ShoppingServiceException("Invalid state in categories"))
                                 .getKey()
+                ));
+    }
+
+    /**
+     *
+     * @return Map with categories as keys and List Customers who bought most often in this category
+     */
+    public Map<String, List<Customer>> countByCategory() {
+        return customerWithProduct
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue()
+                                .entrySet()
+                                .stream()
+                                .flatMap(ee -> nCopies(ee.getValue().intValue(), ee.getKey()).stream())
+                ))
+                .entrySet()
+                .stream()
+                .flatMap(e -> e.getValue().map(product -> new CustomerCategory(e.getKey(),toCategory.apply(product))))
+                .collect(groupingBy(
+                        CustomerCategory::category,
+                        collectingAndThen(
+                                mapping(CustomerCategory::customer, toList()),
+                                customers -> customers
+                                        .stream()
+                                        .collect(groupingBy(identity(), counting()))
+                        )
+                ))
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        ee -> ee.getValue()
+                                .entrySet()
+                                .stream()
+                                .collect(groupingBy(
+                                        Map.Entry::getValue,
+                                        mapping(Map.Entry::getKey, toList())
+                                ))
+                ))
+                .entrySet()
+                .stream()
+                .collect(toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue()
+                                .entrySet()
+                                .stream()
+                                .max(comparingLong(Map.Entry::getKey))
+                                .orElseThrow()
+                                .getValue()
                 ));
     }
 

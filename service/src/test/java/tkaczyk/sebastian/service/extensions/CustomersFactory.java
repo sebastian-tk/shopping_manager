@@ -36,7 +36,7 @@ public interface CustomersFactory {
             .builder()
             .id(4)
             .name("Marta")
-            .surname("Białek")
+            .surname("Bialek")
             .age(17)
             .cash(BigDecimal.valueOf(900))
             .build();
